@@ -1,0 +1,19 @@
+//
+//  Constants.swift
+//  GetGoingProj
+//
+//  Created by MCDA5550 on 2018-06-18.
+//  Copyright © 2018 MCDA5550. All rights reserved.
+//
+
+import Foundation
+
+class Constants {
+    static let apiKey = "AIzaSyBa8MieD6VyDdHiTEh1XAWPl5rbEi2PzZM"
+    static let scheme = "https"
+    static let host = "maps.googleapis.com"
+    static let textPlaceSearch = "/maps/api/place/textsearch/json"
+    static let nearbyPlaceSearch = "/maps/api/place/nearbysearch/json"
+    static let placeDetails = "/maps/api/place/details/json"
+    static let placePhotoSearch = "/maps/api/place/json"
+}
