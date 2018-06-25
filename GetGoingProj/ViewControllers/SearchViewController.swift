@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class SearchViewController: UIViewController {
 
@@ -55,6 +56,10 @@ class SearchViewController: UIViewController {
     
     @IBAction func searchSelectionChanged(_ sender: UISegmentedControl) {
         print("segment control changed \(segmentedControl.selectedSegmentIndex)")
+        if segmentedControl.selectedSegmentIndex == 1 {
+            LocationService.sharedInstance.delegate = self
+            LocationService.sharedInstance.startUpdatingLocation()
+        }
     }
     
     func presentSearchResults(_ results: [PlaceOfInterest]) {
@@ -115,4 +120,17 @@ extension SearchViewController: UITextFieldDelegate {
         
         return true
     }
+}
+
+// MARK: - Location Service Delegate
+
+extension SearchViewController: LocationServiceDelegate {
+    func tracingLocation(_ currentLocation: CLLocation) {
+        print("\(currentLocation.coordinate.latitude) \(currentLocation.coordinate.longitude) ")
+    }
+    
+    func tracingLocationDidFailWithError(_ error: Error) {
+
+    }
+
 }
