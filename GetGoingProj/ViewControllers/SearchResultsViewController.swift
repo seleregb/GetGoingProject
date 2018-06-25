@@ -11,11 +11,33 @@ import UIKit
 class SearchResultsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var places: [PlaceOfInterest]!
+    var placeParam: String?
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
+    // MARK: - Sorting data based on the selected segmented control
     @IBAction func sortSelectionChanged(_ sender: UISegmentedControl) {
         
+        let selectedSegment = segmentedControl.selectedSegmentIndex
+        print("selected sort segment: \(selectedSegment)")
+        if selectedSegment == 0 {
+            let sortedPlacesArray = places.sorted {
+                $0.name > $1.name
+            }
+            places = sortedPlacesArray
+            print("sorted places by name!")
+        }
+        else {
+            let sortedPlacesArray = places.sorted {
+                $0.rating! > $1.rating!
+            }
+            places = sortedPlacesArray
+            print("sorted places by rating!")
+        }
+        
+        tableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -53,8 +75,28 @@ class SearchResultsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let selectedPlace = places[indexPath.row]
+        if let placeId = selectedPlace.placeId {
+            GooglePlacesAPI.placeDetailsSearch(query: placeId, completionHandler: {(status, json) in
+                if let jsonObj = json {
+                    let place = APIParser.parseAPIResponseForPlaceDetails(json: jsonObj)
+                    print("found place \(place)")
+                    DispatchQueue.main.async {
+                        self.presentPlaceDetails(place)
+                    }
+                }
+                else {
+                    print("error parsing json!")
+                }
+            })
+        }
+    }
+    
+    func presentPlaceDetails(_ results: PlaceOfInterest) {
         let detailsViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailsViewController") as! DetailsViewController
-        detailsViewController.place = places[indexPath.row]
+        
+        detailsViewController.place = results
         
         navigationController?.pushViewController(detailsViewController, animated: true)
     }

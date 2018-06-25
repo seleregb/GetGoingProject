@@ -34,17 +34,7 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         locationManager?.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager?.delegate = self
     }
-    
-    func startUpdatingLocation() {
-        print("started updating")
-        locationManager?.startUpdatingLocation()
-    }
-    
-    func stopUpdatingLocation() {
-        print("stopped updating")
-        locationManager?.stopUpdatingLocation()
-    }
-    
+
     // MARK: - CLLocation Manager Delegate
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
