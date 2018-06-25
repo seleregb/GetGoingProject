@@ -16,11 +16,17 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var photoImageView: UIImageView!
+    @IBOutlet weak var websiteLabel: UILabel!
+    @IBOutlet weak var phoneNumberLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        addressLabel.text = place.formattedAddress
+//        websiteLabel.text = place.website
+//        phoneNumberLabel.text = place.formattedPhoneNumber
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,7 +34,6 @@ class DetailsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
     /*
     // MARK: - Navigation
 
