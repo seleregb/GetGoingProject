@@ -14,8 +14,11 @@ class PlaceOfInterest {
     var name: String
     var rating: Double?
     var formattedAddress: String?
-    var geometry: String?
+    var geometry: [String: [String: Any]]?
     var iconImageView: String?
+    var placeId: String?
+    var website: String?
+    var formattedPhoneNumber: String?
     
     init?(json: [String: Any]) {
         
@@ -30,8 +33,11 @@ class PlaceOfInterest {
         self.name = name
         self.rating = json["rating"] as? Double
         self.formattedAddress = json["formatted_address"] as? String
-        self.geometry = json["geometry"] as? String
+        self.geometry = json["geometry"] as? [String: [String: Any]]
         self.iconImageView = json["icon"] as? String
+        self.placeId = json["place_id"] as? String
+        self.website = json["website"] as? String
+        self.formattedPhoneNumber = json["formatted_phone_number"] as? String
         
     }
     
