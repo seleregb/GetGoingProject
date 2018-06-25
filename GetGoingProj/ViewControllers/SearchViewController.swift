@@ -31,7 +31,7 @@ class SearchViewController: UIViewController {
         
         if let inputValue = searchParam {
 //            print("success")
-            displayAlert(title: "Success!", message: "We got \(inputValue)")
+            
             GooglePlacesAPI.textSearch(query: inputValue, completionHandler: {(status, json) in
                 if let jsonObj = json {
                     let places = APIParser.parseAPIResponse(json: jsonObj)
@@ -39,6 +39,7 @@ class SearchViewController: UIViewController {
                     DispatchQueue.main.async {
                         if places.count > 0 {
                             self.presentSearchResults(places)
+                            self.displayAlert(title: "Success!", message: "We got \(inputValue)")
                         } else {
                             self.displayAlert(title: "Oops", message: "There are no results")
                         }
