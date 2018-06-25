@@ -21,6 +21,7 @@
 		835AC0FD20DAF3D100B478AC /* POITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835AC0FB20DAF3D100B478AC /* POITableViewCell.swift */; };
 		835AC0FE20DAF3D100B478AC /* POITableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 835AC0FC20DAF3D100B478AC /* POITableViewCell.xib */; };
 		835AC10020DB0AD100B478AC /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835AC0FF20DB0AD100B478AC /* DetailsViewController.swift */; };
+		83DC319A20E18B42006AA607 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83DC319920E18B42006AA607 /* LocationService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		835AC0FB20DAF3D100B478AC /* POITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POITableViewCell.swift; sourceTree = "<group>"; };
 		835AC0FC20DAF3D100B478AC /* POITableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = POITableViewCell.xib; sourceTree = "<group>"; };
 		835AC0FF20DB0AD100B478AC /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		83DC319920E18B42006AA607 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 				835AC0F220D85A0D00B478AC /* NetworkingLayer.swift */,
 				835AC0F420D863E500B478AC /* GooglePlacesAPI.swift */,
 				835AC0F820D86E5300B478AC /* APIParser.swift */,
+				83DC319920E18B42006AA607 /* LocationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -206,6 +209,7 @@
 				835AC0F320D85A0D00B478AC /* NetworkingLayer.swift in Sources */,
 				832EEC7420CF344A00989604 /* AppDelegate.swift in Sources */,
 				835AC0EF20D8589A00B478AC /* Constants.swift in Sources */,
+				83DC319A20E18B42006AA607 /* LocationService.swift in Sources */,
 				835AC0F720D86B7300B478AC /* PlaceOfInterest.swift in Sources */,
 				835AC0FD20DAF3D100B478AC /* POITableViewCell.swift in Sources */,
 				835AC0F520D863E500B478AC /* GooglePlacesAPI.swift in Sources */,
