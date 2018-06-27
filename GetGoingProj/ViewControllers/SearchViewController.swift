@@ -15,12 +15,15 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     var searchParam : String?
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     // MARK: - View Controller Life Cycle Views
     override func viewDidLoad() {
         super.viewDidLoad()
 
     // Look for the defined delegate and perform action
        searchParametersTextField.delegate = self
+        activityIndicator.isHidden = true
     }
     
     // MARK: - Button Actions
@@ -29,29 +32,58 @@ class SearchViewController: UIViewController {
         print("starting search")
         searchParametersTextField.resignFirstResponder()
         
-        if let inputValue = searchParam {
-//            print("success")
-            
-            GooglePlacesAPI.textSearch(query: inputValue, completionHandler: {(status, json) in
-                if let jsonObj = json {
-                    let places = APIParser.parseAPIResponse(json: jsonObj)
-                    // update UI on the main thread
-                    DispatchQueue.main.async {
-                        if places.count > 0 {
-                            self.presentSearchResults(places)
-                            self.displayAlert(title: "Success!", message: "We got \(inputValue)")
-                        } else {
-                            self.displayAlert(title: "Oops", message: "There are no results")
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            if let inputValue = searchParam {
+                GooglePlacesAPI.textSearch(query: inputValue, completionHandler: {(status, json) in
+                    if let jsonObj = json {
+                        let places = APIParser.parseAPIResponse(json: jsonObj)
+                        //update UI on the main thread!
+                        DispatchQueue.main.async {
+                            self.activityIndicator.isHidden = true
+                            self.activityIndicator.stopAnimating()
+                            if places.count > 0 {
+                                self.presentSearchResults(places)
+                                self.savePlacesToLocalStorage(places: places)
+                            } else {
+                                self.displayAlert(title: "Oops", message: "No results found")
+                            }
                         }
+                        print("\(places.count)")
+                    } else {
+                        self.displayAlert(title: "Oops", message: "An error parsing json")
                     }
-                    print("\(places.count)")
-                }
-                else {
-                    self.displayAlert(title: "Oops", message: "An error parsing json!")
-                }
-            })
-        } else {
-            displayAlert(title: "Oops!", message: "An error has occurred!")
+                })
+                
+            } else {
+                displayAlert(title: "Oops", message: "An error has occurred")
+            }
+        case 1:
+            if let currentLocation = LocationService.sharedInstance.currentLocation {
+                GooglePlacesAPI.nearbyLocationSearch(query: searchParam, locationCoordinates: currentLocation.coordinate, completionHandler: {(status, json) in
+                    if let jsonObj = json {
+                        let places = APIParser.parseAPIResponse(json: jsonObj)
+                        //update UI on the main thread!
+                        DispatchQueue.main.async {
+                            self.activityIndicator.isHidden = true
+                            self.activityIndicator.stopAnimating()
+                            if places.count > 0 {
+                                self.presentSearchResults(places)
+                                self.savePlacesToLocalStorage(places: places)
+                            } else {
+                                self.displayAlert(title: "Oops", message: "No results found")
+                            }
+                        }
+                        print("\(places.count)")
+                    } else {
+                        self.displayAlert(title: "Oops", message: "An error parsing json")
+                    }
+                })
+            } else {
+                displayAlert(title: "Oops", message: "Could not identify your location")
+            }
+        default:
+            break;
         }
     }
     
@@ -61,6 +93,23 @@ class SearchViewController: UIViewController {
             LocationService.sharedInstance.delegate = self
             LocationService.sharedInstance.startUpdatingLocation()
         }
+    }
+    
+    @IBAction func loadLastSavedResults(_ sender: UIButton) {
+        if let places = loadListsFromLocalStorage() {
+            presentSearchResults(places)
+        }
+    }
+    
+    // MARK: Local Storage
+    func savePlacesToLocalStorage(places: [PlaceOfInterest]) {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(places, toFile: Constants.ArchiveURL.path)
+        
+        print("is sucessful save \(isSuccessfulSave)")
+    }
+    
+    func loadListsFromLocalStorage() -> [PlaceOfInterest]? {
+        return NSKeyedUnarchiver.unarchiveObject(withFile: Constants.ArchiveURL.path) as? [PlaceOfInterest]
     }
     
     func presentSearchResults(_ results: [PlaceOfInterest]) {
@@ -88,16 +137,20 @@ class SearchViewController: UIViewController {
         })
     }
     
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
     }
-    */
-
+    
+    
+    @IBAction func presentFilters(_ sender: UIButton) {
+        let filtersViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FiltersViewController") as! FiltersViewController
+        
+        present(filtersViewController, animated: true, completion: nil)
+    }
+    
 }
 
 

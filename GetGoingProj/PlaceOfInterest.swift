@@ -9,7 +9,12 @@
 import Foundation
 import CoreLocation
 
-class PlaceOfInterest {
+class PlaceOfInterest: NSObject, NSCoding {
+    
+    struct PropertyKey {
+        static let idKey = "id"
+        static let nameKey = "name"
+    }
     
     var id: String
     var name: String
@@ -55,4 +60,21 @@ class PlaceOfInterest {
         
     }
     
+    init(id: String, name: String) {
+        self.id = id
+        self.name = name
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(id, forKey: PropertyKey.idKey)
+        aCoder.encode(name, forKey: PropertyKey.nameKey)
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        let id = aDecoder.decodeObject(forKey: PropertyKey.idKey) as! String
+        let name = aDecoder.decodeObject(forKey: PropertyKey.nameKey) as! String
+        self.init(id: id, name: name)
+    }
+    
 }
+

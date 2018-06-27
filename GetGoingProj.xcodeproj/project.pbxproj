@@ -21,6 +21,7 @@
 		835AC0FD20DAF3D100B478AC /* POITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835AC0FB20DAF3D100B478AC /* POITableViewCell.swift */; };
 		835AC0FE20DAF3D100B478AC /* POITableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 835AC0FC20DAF3D100B478AC /* POITableViewCell.xib */; };
 		835AC10020DB0AD100B478AC /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835AC0FF20DB0AD100B478AC /* DetailsViewController.swift */; };
+		8373E53320E43230004B7D54 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8373E53220E43230004B7D54 /* FiltersViewController.swift */; };
 		83DC319A20E18B42006AA607 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83DC319920E18B42006AA607 /* LocationService.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		835AC0FB20DAF3D100B478AC /* POITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POITableViewCell.swift; sourceTree = "<group>"; };
 		835AC0FC20DAF3D100B478AC /* POITableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = POITableViewCell.xib; sourceTree = "<group>"; };
 		835AC0FF20DB0AD100B478AC /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		8373E53220E43230004B7D54 /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
 		83DC319920E18B42006AA607 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -113,6 +115,7 @@
 				835AC0EA20D1BEBA00B478AC /* SearchViewController.swift */,
 				835AC0EC20D8568500B478AC /* SearchResultsViewController.swift */,
 				835AC0FF20DB0AD100B478AC /* DetailsViewController.swift */,
+				8373E53220E43230004B7D54 /* FiltersViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 				835AC0F720D86B7300B478AC /* PlaceOfInterest.swift in Sources */,
 				835AC0FD20DAF3D100B478AC /* POITableViewCell.swift in Sources */,
 				835AC0F520D863E500B478AC /* GooglePlacesAPI.swift in Sources */,
+				8373E53320E43230004B7D54 /* FiltersViewController.swift in Sources */,
 				835AC10020DB0AD100B478AC /* DetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

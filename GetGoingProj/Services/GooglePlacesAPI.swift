@@ -39,7 +39,7 @@ class GooglePlacesAPI {
         retrieveJsonResponseFromUrl(urlComponents: urlComponents, callbackFunction: completionHandler)
     }
     
-    class func locationSearch(query: String?, locationCoordinates: CLLocationCoordinate2D , completionHandler: @escaping(_ statusCode: Int, _ json: [String: Any]?) -> Void) {
+    class func nearbyLocationSearch(query: String?, locationCoordinates: CLLocationCoordinate2D, radius: Int = 5000 , completionHandler: @escaping(_ statusCode: Int, _ json: [String: Any]?) -> Void) {
         var urlComponents = URLComponents()
         urlComponents.scheme = Constants.scheme
         urlComponents.host = Constants.host
@@ -50,6 +50,7 @@ class GooglePlacesAPI {
         urlComponents.queryItems = [
             URLQueryItem(name: "keyword", value: query),
             URLQueryItem(name: "location", value: location),
+            URLQueryItem(name: "radius", value: String(radius)),
             URLQueryItem(name: "key", value: Constants.apiKey)
         ]
     
