@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 class GooglePlacesAPI {
     
@@ -21,16 +22,7 @@ class GooglePlacesAPI {
             URLQueryItem(name: "key", value: Constants.apiKey)
         ]
         
-        NetworkingLayer.getRequest(with: urlComponents) {
-            (statusCode, data) in
-            if let jsonData = data, let jsonObject = try? JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any] {
-                print(jsonObject ?? "")
-                completionHandler(statusCode, jsonObject)
-            } else {
-                print("This is not easy")
-                completionHandler(statusCode, nil)
-            }
-        }
+        retrieveJsonResponseFromUrl(urlComponents: urlComponents, callbackFunction: completionHandler)
     }
     
     class func placeDetailsSearch(query: String, completionHandler: @escaping(_ statusCode: Int, _ json: [String: Any]?) -> Void) {
@@ -44,14 +36,35 @@ class GooglePlacesAPI {
             URLQueryItem(name: "key", value: Constants.apiKey)
         ]
         
+        retrieveJsonResponseFromUrl(urlComponents: urlComponents, callbackFunction: completionHandler)
+    }
+    
+    class func locationSearch(query: String?, locationCoordinates: CLLocationCoordinate2D , completionHandler: @escaping(_ statusCode: Int, _ json: [String: Any]?) -> Void) {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = Constants.scheme
+        urlComponents.host = Constants.host
+        urlComponents.path = Constants.nearbyPlaceSearch
+        
+        let location = "\(locationCoordinates.latitude),\(locationCoordinates.longitude)"
+    
+        urlComponents.queryItems = [
+            URLQueryItem(name: "keyword", value: query),
+            URLQueryItem(name: "location", value: location),
+            URLQueryItem(name: "key", value: Constants.apiKey)
+        ]
+    
+        retrieveJsonResponseFromUrl(urlComponents: urlComponents, callbackFunction: completionHandler)
+    }
+    
+    class func retrieveJsonResponseFromUrl(urlComponents: URLComponents, callbackFunction: @escaping(_ statusCode: Int, _ json: [String: Any]?) -> Void) {
         NetworkingLayer.getRequest(with: urlComponents) {
             (statusCode, data) in
             if let jsonData = data, let jsonObject = try? JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any] {
                 print(jsonObject ?? "")
-                completionHandler(statusCode, jsonObject)
+                callbackFunction(statusCode, jsonObject)
             } else {
                 print("This is not easy")
-                completionHandler(statusCode, nil)
+                callbackFunction(statusCode, nil)
             }
         }
     }
