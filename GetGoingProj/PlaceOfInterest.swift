@@ -20,6 +20,8 @@ class PlaceOfInterest {
     var website: String?
     var formattedPhoneNumber: String?
     var location: CLLocation?
+    var photoArray: Array<[String: Any]>?
+    var typesArray: Array<String>?
     
     init?(json: [String: Any]) {
         
@@ -46,6 +48,10 @@ class PlaceOfInterest {
                 }
             }
         }
+        
+        self.photoArray = json["photos"] as? Array<[String: Any]>
+        
+        self.typesArray = json["types"] as? Array<String>
         
     }
     
