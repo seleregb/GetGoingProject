@@ -28,6 +28,7 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
         websiteLabel.text = place.website
         phoneNumberLabel.text = place.formattedPhoneNumber
         setMapViewCoordinate()
+        retievePlacePhoto(placeObj: place)
         
     }
 
@@ -91,6 +92,21 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
         }
     }
 
+    func retievePlacePhoto(placeObj: PlaceOfInterest) {
+//        let selectedPlace = places[indexPath.row]
+        GooglePlacesAPI.placePhotoSearch(maxWidth: place.maxWidth!, photoReference: place.photoReference!, completionHandler: {(status, json) in
+                if let jsonObj = json {
+                    let place = APIParser.parseAPIResponseForPlaceDetails(json: jsonObj)
+                    print("found place \(place)")
+                    if let imageUrl = placeObj.iconImageView, let url = URL(string: imageUrl), let dataContents = try? Data(contentsOf: url), let imageSrc = UIImage(data: dataContents) {
+                        self.photoImageView.image = imageSrc
+                    }
+                }
+                else {
+                    print("error parsing json!")
+                }
+            })
+    }
     
     /*
     // MARK: - Navigation

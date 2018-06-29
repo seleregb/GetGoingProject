@@ -32,6 +32,7 @@ class FiltersViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     
     var rankByDictionary: [RankBy] = [.prominence, .distance]
     var rankSelected: RankBy = .prominence
+    var filterObject: [String : Any] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,15 +60,17 @@ class FiltersViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     }
     
     @IBAction func applyButtonAction(_ sender: UIBarButtonItem) {
-        
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func openNowSelectionChange(_ sender: UISwitch) {
         print("switch is \(sender.isOn)")
+        self.filterObject["switchIsOn"] = sender.isOn
     }
     
     @IBAction func radisuChanged(_ sender: UISlider) {
         print("radius is \(sender.value)")
+        self.filterObject["radius"] = sender.value
     }
     
     
@@ -95,6 +98,7 @@ class FiltersViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         rankSelected = rankByDictionary[row]
         rankByLabel.text = rankSelected.description()
+        self.filterObject["rankSelected"] = rankByLabel.text
     }
 
 }

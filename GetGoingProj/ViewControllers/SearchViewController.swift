@@ -16,6 +16,7 @@ class SearchViewController: UIViewController {
     var searchParam : String?
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var filterButton: UIButton!
     
     // MARK: - View Controller Life Cycle Views
     override func viewDidLoad() {
@@ -32,59 +33,69 @@ class SearchViewController: UIViewController {
         print("starting search")
         searchParametersTextField.resignFirstResponder()
         
-        switch segmentedControl.selectedSegmentIndex {
-        case 0:
-            if let inputValue = searchParam {
-                GooglePlacesAPI.textSearch(query: inputValue, completionHandler: {(status, json) in
-                    if let jsonObj = json {
-                        let places = APIParser.parseAPIResponse(json: jsonObj)
-                        //update UI on the main thread!
-                        DispatchQueue.main.async {
-                            self.activityIndicator.isHidden = true
-                            self.activityIndicator.stopAnimating()
-                            if places.count > 0 {
-                                self.presentSearchResults(places)
-                                self.savePlacesToLocalStorage(places: places)
-                            } else {
-                                self.displayAlert(title: "Oops", message: "No results found")
+        let filtersViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FiltersViewController") as! FiltersViewController
+        
+        
+        if filterParametersChanged() {
+            let isOpen = filtersViewController.openNowSwitch.isOn
+            let isSelected = filtersViewController.rankSelected.description()
+            
+            switch segmentedControl.selectedSegmentIndex {
+            case 0:
+                if let inputValue = searchParam {
+                    GooglePlacesAPI.textSearch(query: inputValue, openNow: isOpen, rankBy: isSelected, completionHandler: {(status, json) in
+                        if let jsonObj = json {
+                            let places = APIParser.parseAPIResponse(json: jsonObj)
+                            //update UI on the main thread!
+                            DispatchQueue.main.async {
+                                self.activityIndicator.isHidden = true
+                                self.activityIndicator.stopAnimating()
+                                if places.count > 0 {
+                                    self.presentSearchResults(places)
+                                    self.savePlacesToLocalStorage(places: places)
+                                } else {
+                                    self.displayAlert(title: "Oops", message: "No results found")
+                                }
                             }
+                            print("\(places.count)")
+                        } else {
+                            self.displayAlert(title: "Oops", message: "An error parsing json")
                         }
-                        print("\(places.count)")
-                    } else {
-                        self.displayAlert(title: "Oops", message: "An error parsing json")
-                    }
-                })
-                
-            } else {
-                displayAlert(title: "Oops", message: "An error has occurred")
-            }
-        case 1:
-            if let currentLocation = LocationService.sharedInstance.currentLocation {
-                GooglePlacesAPI.nearbyLocationSearch(query: searchParam, locationCoordinates: currentLocation.coordinate, completionHandler: {(status, json) in
-                    if let jsonObj = json {
-                        let places = APIParser.parseAPIResponse(json: jsonObj)
-                        //update UI on the main thread!
-                        DispatchQueue.main.async {
-                            self.activityIndicator.isHidden = true
-                            self.activityIndicator.stopAnimating()
-                            if places.count > 0 {
-                                self.presentSearchResults(places)
-                                self.savePlacesToLocalStorage(places: places)
-                            } else {
-                                self.displayAlert(title: "Oops", message: "No results found")
+                    })
+                    
+                } else {
+                    displayAlert(title: "Oops", message: "An error has occurred")
+                }
+            case 1:
+                if let currentLocation = LocationService.sharedInstance.currentLocation {
+                    GooglePlacesAPI.nearbyLocationSearch(keyword: searchParam, locationCoordinates: currentLocation.coordinate, openNow: isOpen, rankBy: isSelected, completionHandler: {(status, json) in
+                        if let jsonObj = json {
+                            let places = APIParser.parseAPIResponse(json: jsonObj)
+                            //update UI on the main thread!
+                            DispatchQueue.main.async {
+                                self.activityIndicator.isHidden = true
+                                self.activityIndicator.stopAnimating()
+                                if places.count > 0 {
+                                    self.presentSearchResults(places)
+                                    self.savePlacesToLocalStorage(places: places)
+                                } else {
+                                    self.displayAlert(title: "Oops", message: "No results found")
+                                }
                             }
+                            print("\(places.count)")
+                        } else {
+                            self.displayAlert(title: "Oops", message: "An error parsing json")
                         }
-                        print("\(places.count)")
-                    } else {
-                        self.displayAlert(title: "Oops", message: "An error parsing json")
-                    }
-                })
-            } else {
-                displayAlert(title: "Oops", message: "Could not identify your location")
+                    })
+                } else {
+                    displayAlert(title: "Oops", message: "Could not identify your location")
+                }
+            default:
+                break;
             }
-        default:
-            break;
+            
         }
+        
     }
     
     @IBAction func searchSelectionChanged(_ sender: UISegmentedControl) {
@@ -149,6 +160,15 @@ class SearchViewController: UIViewController {
         let filtersViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FiltersViewController") as! FiltersViewController
         
         present(filtersViewController, animated: true, completion: nil)
+    }
+    
+    func filterParametersChanged() -> Bool {
+        let filtersViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FiltersViewController") as! FiltersViewController
+        
+        if filtersViewController.rankByLabel.text != "Prominence" && !filtersViewController.openNowSwitch.isOn {
+            return true
+        }
+        return false
     }
     
 }

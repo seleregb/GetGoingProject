@@ -15,7 +15,7 @@ class Constants {
     static let textPlaceSearch = "/maps/api/place/textsearch/json"
     static let nearbyPlaceSearch = "/maps/api/place/nearbysearch/json"
     static let placeDetails = "/maps/api/place/details/json"
-    static let placePhotoSearch = "/maps/api/place/json"
+    static let placePhotoSearch = "/maps/api/place/photo"
     
     // MARK: Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!

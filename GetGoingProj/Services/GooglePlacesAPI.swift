@@ -11,7 +11,7 @@ import CoreLocation
 
 class GooglePlacesAPI {
     
-    class func textSearch(query: String, completionHandler: @escaping(_ statusCode: Int, _ json: [String: Any]?) -> Void) {
+    class func textSearch(query: String, radius: Int = 5000, openNow: Bool?, rankBy: String?, completionHandler: @escaping(_ statusCode: Int, _ json: [String: Any]?) -> Void) {
         var urlComponents = URLComponents()
         urlComponents.scheme = Constants.scheme
         urlComponents.host = Constants.host
@@ -21,6 +21,16 @@ class GooglePlacesAPI {
             URLQueryItem(name: "query", value: query),
             URLQueryItem(name: "key", value: Constants.apiKey)
         ]
+        
+        if let openNow = openNow {
+            urlComponents.queryItems?.append(URLQueryItem(name: "opennow", value: String(openNow)))
+        }
+        
+        if radius == 5000 {
+            urlComponents.queryItems?.append(URLQueryItem(name: "radius", value: String(radius)))
+        } else {
+            urlComponents.queryItems?.append(URLQueryItem(name: "rankby", value: rankBy))
+        }
         
         retrieveJsonResponseFromUrl(urlComponents: urlComponents, callbackFunction: completionHandler)
     }
@@ -39,7 +49,7 @@ class GooglePlacesAPI {
         retrieveJsonResponseFromUrl(urlComponents: urlComponents, callbackFunction: completionHandler)
     }
     
-    class func nearbyLocationSearch(query: String?, locationCoordinates: CLLocationCoordinate2D, radius: Int = 5000 , completionHandler: @escaping(_ statusCode: Int, _ json: [String: Any]?) -> Void) {
+    class func nearbyLocationSearch(keyword: String?, locationCoordinates: CLLocationCoordinate2D, radius: Int = 5000 , openNow: Bool?, rankBy: String?, completionHandler: @escaping(_ statusCode: Int, _ json: [String: Any]?) -> Void) {
         var urlComponents = URLComponents()
         urlComponents.scheme = Constants.scheme
         urlComponents.host = Constants.host
@@ -48,12 +58,36 @@ class GooglePlacesAPI {
         let location = "\(locationCoordinates.latitude),\(locationCoordinates.longitude)"
     
         urlComponents.queryItems = [
-            URLQueryItem(name: "keyword", value: query),
             URLQueryItem(name: "location", value: location),
-            URLQueryItem(name: "radius", value: String(radius)),
             URLQueryItem(name: "key", value: Constants.apiKey)
         ]
+        
+        if let keyword = keyword, let openNow = openNow {
+            urlComponents.queryItems?.append(URLQueryItem(name: "keyword", value: keyword))
+            urlComponents.queryItems?.append(URLQueryItem(name: "opennow", value: String(openNow)))
+        }
+        
+        if radius == 5000 {
+            urlComponents.queryItems?.append(URLQueryItem(name: "radius", value: String(radius)))
+        } else {
+            urlComponents.queryItems?.append(URLQueryItem(name: "rankby", value: rankBy))
+        }
     
+        retrieveJsonResponseFromUrl(urlComponents: urlComponents, callbackFunction: completionHandler)
+    }
+    
+    class func placePhotoSearch(maxWidth: Double, photoReference: String, completionHandler: @escaping(_ statusCode: Int, _ json: [String: Any]?) -> Void) {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = Constants.scheme
+        urlComponents.host = Constants.host
+        urlComponents.path = Constants.placePhotoSearch
+        
+        urlComponents.queryItems = [
+            URLQueryItem(name: "photoreference", value: photoReference),
+            URLQueryItem(name: "maxwidth", value: String(maxWidth)),
+            URLQueryItem(name: "key", value: Constants.apiKey)
+        ]
+        
         retrieveJsonResponseFromUrl(urlComponents: urlComponents, callbackFunction: completionHandler)
     }
     

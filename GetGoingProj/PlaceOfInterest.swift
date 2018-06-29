@@ -14,6 +14,15 @@ class PlaceOfInterest: NSObject, NSCoding {
     struct PropertyKey {
         static let idKey = "id"
         static let nameKey = "name"
+        static let ratingKey = "rating"
+        static let iconKey = "icon"
+        static let latKey = "lat"
+        static let lngKey = "lng"
+        static let photoReferenceKey = "photoReference"
+        static let maxWidthKey = "maxWidth"
+        static let typesKey = "types"
+        static let vicinityKey = "vicinity"
+        static let formattedAddressKey = "formattedAddress"
     }
     
     var id: String
@@ -25,8 +34,11 @@ class PlaceOfInterest: NSObject, NSCoding {
     var website: String?
     var formattedPhoneNumber: String?
     var location: CLLocation?
-    var photoArray: Array<[String: Any]>?
-    var typesArray: Array<String>?
+    var photoReference: String?
+    var types: Array<String>?
+    var vicinity: String?
+    var maxWidth: Double?
+    var photos: Array<[String: Any]>?
     
     init?(json: [String: Any]) {
         
@@ -54,26 +66,55 @@ class PlaceOfInterest: NSObject, NSCoding {
             }
         }
         
-        self.photoArray = json["photos"] as? Array<[String: Any]>
+        self.photos = json["photos"] as? Array<[String: Any]>
         
-        self.typesArray = json["types"] as? Array<String>
+        if let photo = json["photos"] as? Array<[String: Any]> {
+            if !photo.isEmpty {
+                self.photoReference = photo.first!["photo_reference"] as? String
+                self.maxWidth = photo.first!["width"] as? Double
+            }
+        }
+        
+        self.types = json["types"] as? Array<String>
+        self.vicinity = json["vicinity"] as? String
         
     }
     
-    init(id: String, name: String) {
+    init(id: String, name: String, rating: Double, icon: String, photoReference: String, maxWidth: Double, types: Array<String>, vicinity: String, formattedAddress: String) {
         self.id = id
         self.name = name
+        self.rating = rating
+        self.iconImageView = icon
+        self.photoReference = photoReference
+        self.maxWidth = maxWidth
+        self.types = types
+        self.vicinity = vicinity
+        self.formattedAddress = formattedAddress
     }
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(id, forKey: PropertyKey.idKey)
         aCoder.encode(name, forKey: PropertyKey.nameKey)
+        aCoder.encode(rating, forKey: PropertyKey.ratingKey)
+        aCoder.encode(iconImageView, forKey: PropertyKey.iconKey)
+        aCoder.encode(photoReference, forKey: PropertyKey.photoReferenceKey)
+        aCoder.encode(maxWidth, forKey: PropertyKey.maxWidthKey)
+        aCoder.encode(types, forKey: PropertyKey.typesKey)
+        aCoder.encode(vicinity, forKey: PropertyKey.vicinityKey)
+        aCoder.encode(formattedAddress, forKey: PropertyKey.formattedAddressKey)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
         let id = aDecoder.decodeObject(forKey: PropertyKey.idKey) as! String
         let name = aDecoder.decodeObject(forKey: PropertyKey.nameKey) as! String
-        self.init(id: id, name: name)
+        let icon = aDecoder.decodeObject(forKey: PropertyKey.iconKey) as! String
+        let rating = aDecoder.decodeObject(forKey: PropertyKey.ratingKey) as! Double
+        let photoReference = aDecoder.decodeObject(forKey: PropertyKey.photoReferenceKey) as! String
+        let maxWidth = aDecoder.decodeObject(forKey: PropertyKey.maxWidthKey) as! Double
+        let types = aDecoder.decodeObject(forKey: PropertyKey.typesKey) as! Array<String>
+        let vicinity = aDecoder.decodeObject(forKey: PropertyKey.vicinityKey) as! String
+        let formattedAddress = aDecoder.decodeObject(forKey: PropertyKey.formattedAddressKey) as! String
+        self.init(id: id, name: name, rating: rating, icon: icon, photoReference: photoReference, maxWidth: maxWidth, types: types, vicinity: vicinity, formattedAddress: formattedAddress)
     }
     
 }
