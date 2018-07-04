@@ -67,7 +67,7 @@ class SearchResultsViewController: UIViewController, UITableViewDelegate, UITabl
         cell.titleLabel.text = places[indexPath.row].name
         cell.addressLabel.text = places[indexPath.row].formattedAddress
         
-        if let imageUrl = places[indexPath.row].iconImageView, let url = URL(string: imageUrl), let dataContents = try? Data(contentsOf: url), let imageSrc = UIImage(data: dataContents) {
+        if let imageUrl = places[indexPath.row].iconUrl, let url = URL(string: imageUrl), let dataContents = try? Data(contentsOf: url), let imageSrc = UIImage(data: dataContents) {
             cell.iconImageView.image = imageSrc
         }
         

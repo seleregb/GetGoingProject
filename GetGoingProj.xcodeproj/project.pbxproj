@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8321B59A20E6E5E90043A0F4 /* Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8321B59920E6E5E90043A0F4 /* Extras.swift */; };
 		832EEC7420CF344A00989604 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832EEC7320CF344A00989604 /* AppDelegate.swift */; };
 		832EEC7920CF344A00989604 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 832EEC7720CF344A00989604 /* Main.storyboard */; };
 		832EEC7B20CF344C00989604 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 832EEC7A20CF344C00989604 /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8321B59920E6E5E90043A0F4 /* Extras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extras.swift; sourceTree = "<group>"; };
 		832EEC7020CF344A00989604 /* GetGoingProj.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GetGoingProj.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		832EEC7320CF344A00989604 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		832EEC7820CF344A00989604 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -57,6 +59,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8321B59820E6E5C60043A0F4 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				8321B59920E6E5E90043A0F4 /* Extras.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		832EEC6720CF344A00989604 = {
 			isa = PBXGroup;
 			children = (
@@ -77,6 +87,7 @@
 		832EEC7220CF344A00989604 /* GetGoingProj */ = {
 			isa = PBXGroup;
 			children = (
+				8321B59820E6E5C60043A0F4 /* Utils */,
 				835AC0F120D859ED00B478AC /* ViewControllers */,
 				835AC0F020D859E000B478AC /* Services */,
 				832EEC7320CF344A00989604 /* AppDelegate.swift */,
@@ -206,6 +217,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8321B59A20E6E5E90043A0F4 /* Extras.swift in Sources */,
 				835AC0EB20D1BEBA00B478AC /* SearchViewController.swift in Sources */,
 				835AC0F920D86E5300B478AC /* APIParser.swift in Sources */,
 				835AC0ED20D8568500B478AC /* SearchResultsViewController.swift in Sources */,

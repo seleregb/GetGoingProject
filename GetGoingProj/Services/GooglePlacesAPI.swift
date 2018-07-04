@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import UIKit
 
 class GooglePlacesAPI {
     
@@ -76,7 +77,7 @@ class GooglePlacesAPI {
         retrieveJsonResponseFromUrl(urlComponents: urlComponents, callbackFunction: completionHandler)
     }
     
-    class func placePhotoSearch(maxWidth: Double, photoReference: String, completionHandler: @escaping(_ statusCode: Int, _ json: [String: Any]?) -> Void) {
+    class func placePhotoSearch(maxWidth: Int, photoReference: String, completionHandler: @escaping(_ statusCode: Int, _ imageData: UIImage?) -> Void) {
         var urlComponents = URLComponents()
         urlComponents.scheme = Constants.scheme
         urlComponents.host = Constants.host
@@ -88,7 +89,15 @@ class GooglePlacesAPI {
             URLQueryItem(name: "key", value: Constants.apiKey)
         ]
         
-        retrieveJsonResponseFromUrl(urlComponents: urlComponents, callbackFunction: completionHandler)
+        NetworkingLayer.getRequest(with: urlComponents) {
+            (statusCode, data) in
+            if let imageData = data {
+                completionHandler(statusCode, UIImage(data: imageData))
+            } else {
+                print("This is not easy")
+                completionHandler(statusCode, nil)
+            }
+        }
     }
     
     class func retrieveJsonResponseFromUrl(urlComponents: URLComponents, callbackFunction: @escaping(_ statusCode: Int, _ json: [String: Any]?) -> Void) {
