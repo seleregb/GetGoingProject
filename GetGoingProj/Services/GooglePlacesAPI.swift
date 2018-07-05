@@ -27,7 +27,7 @@ class GooglePlacesAPI {
             urlComponents.queryItems?.append(URLQueryItem(name: "opennow", value: String(openNow)))
         }
         
-        if radius == 5000 {
+        if radius >= 5000 {
             urlComponents.queryItems?.append(URLQueryItem(name: "radius", value: String(radius)))
         } else {
             urlComponents.queryItems?.append(URLQueryItem(name: "rankby", value: rankBy))

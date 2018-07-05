@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 
+// NSCoding is a protocol
 class PlaceOfInterest: NSObject, NSCoding {
     
     struct PropertyKey {
@@ -36,7 +37,7 @@ class PlaceOfInterest: NSObject, NSCoding {
     var formattedPhoneNumber: String?
     var location: CLLocation?
     var photoReference: String?
-    var types: Array<String>?
+    var types: [String]?
     var vicinity: String?
     var maxWidth: Int?
     var open_now: Bool?
@@ -67,14 +68,14 @@ class PlaceOfInterest: NSObject, NSCoding {
             }
         }
         
-        if let photos = json["photos"] as? Array<[String: Any]> {
+        if let photos = json["photos"] as? [[String: Any]] {
             if !photos.isEmpty {
                 self.photoReference = photos.first!["photo_reference"] as? String
                 self.maxWidth = photos.first!["width"] as? Int
             }
         }
         
-        self.types = json["types"] as? Array<String>
+        self.types = json["types"] as? [String]
         self.vicinity = json["vicinity"] as? String
         
         if let open_hours = json["opening_hours"] as? [String: Any] {

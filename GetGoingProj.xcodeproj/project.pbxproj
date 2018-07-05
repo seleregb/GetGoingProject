@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8316CCB820ED69BB002D2CA8 /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8316CCB720ED69BB002D2CA8 /* RatingControl.swift */; };
+		8316CCBB20EE6AC7002D2CA8 /* FiltersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8316CCBA20EE6AC7002D2CA8 /* FiltersService.swift */; };
 		8321B59A20E6E5E90043A0F4 /* Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8321B59920E6E5E90043A0F4 /* Extras.swift */; };
 		832EEC7420CF344A00989604 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832EEC7320CF344A00989604 /* AppDelegate.swift */; };
 		832EEC7920CF344A00989604 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 832EEC7720CF344A00989604 /* Main.storyboard */; };
@@ -27,6 +29,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8316CCB720ED69BB002D2CA8 /* RatingControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
+		8316CCBA20EE6AC7002D2CA8 /* FiltersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersService.swift; sourceTree = "<group>"; };
 		8321B59920E6E5E90043A0F4 /* Extras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extras.swift; sourceTree = "<group>"; };
 		832EEC7020CF344A00989604 /* GetGoingProj.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GetGoingProj.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		832EEC7320CF344A00989604 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +63,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8316CCB920ED7955002D2CA8 /* CameraFlow */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CameraFlow;
+			sourceTree = "<group>";
+		};
 		8321B59820E6E5C60043A0F4 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +126,7 @@
 				835AC0F420D863E500B478AC /* GooglePlacesAPI.swift */,
 				835AC0F820D86E5300B478AC /* APIParser.swift */,
 				83DC319920E18B42006AA607 /* LocationService.swift */,
+				8316CCBA20EE6AC7002D2CA8 /* FiltersService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -122,6 +134,7 @@
 		835AC0F120D859ED00B478AC /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				8316CCB920ED7955002D2CA8 /* CameraFlow */,
 				835AC0FA20DAF33B00B478AC /* Custom UI Controls */,
 				835AC0EA20D1BEBA00B478AC /* SearchViewController.swift */,
 				835AC0EC20D8568500B478AC /* SearchResultsViewController.swift */,
@@ -136,6 +149,7 @@
 			children = (
 				835AC0FB20DAF3D100B478AC /* POITableViewCell.swift */,
 				835AC0FC20DAF3D100B478AC /* POITableViewCell.xib */,
+				8316CCB720ED69BB002D2CA8 /* RatingControl.swift */,
 			);
 			path = "Custom UI Controls";
 			sourceTree = "<group>";
@@ -217,9 +231,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8316CCB820ED69BB002D2CA8 /* RatingControl.swift in Sources */,
 				8321B59A20E6E5E90043A0F4 /* Extras.swift in Sources */,
 				835AC0EB20D1BEBA00B478AC /* SearchViewController.swift in Sources */,
 				835AC0F920D86E5300B478AC /* APIParser.swift in Sources */,
+				8316CCBB20EE6AC7002D2CA8 /* FiltersService.swift in Sources */,
 				835AC0ED20D8568500B478AC /* SearchResultsViewController.swift in Sources */,
 				835AC0F320D85A0D00B478AC /* NetworkingLayer.swift in Sources */,
 				832EEC7420CF344A00989604 /* AppDelegate.swift in Sources */,
