@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GetGoingProj/ViewControllers/SearchResultsViewController.swift"
-            timestampString = "551997073.84126"
+            filePath = "GetGoingProj/ViewControllers/SearchViewController.swift"
+            timestampString = "552504903.810883"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
-            landmarkName = "tableView(_:didSelectRowAt:)"
+            startingLineNumber = "198"
+            endingLineNumber = "198"
+            landmarkName = "retrieveFilterParameters(controller:filters:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

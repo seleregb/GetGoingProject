@@ -71,6 +71,12 @@ class SearchResultsViewController: UIViewController, UITableViewDelegate, UITabl
             cell.iconImageView.image = imageSrc
         }
         
+        if let rating = places[indexPath.row].rating {
+            cell.ratingControl.rating = Int(rating.rounded(.toNearestOrAwayFromZero))
+        } else {
+            cell.ratingControl.isHidden = true
+        }
+        
         return cell
     }
     

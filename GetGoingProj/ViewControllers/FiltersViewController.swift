@@ -25,18 +25,27 @@ enum RankBy{
 class FiltersViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var openNowSwitch: UISwitch!
+    var switchIsOpen: Bool?
     
     @IBOutlet weak var rankByPicker: UIPickerView!
     
     @IBOutlet weak var rankByLabel: UILabel!
+    var rankOptionSelected: String?
+    
+    @IBOutlet weak var radiusSlider: UISlider!
+    var radiusSelected: Float?
     
     var rankByDictionary: [RankBy] = [.prominence, .distance]
+    
     var rankSelected: RankBy = .prominence
-    var filterObject: [String : Any] = [:]
+    
+    var filtersObject: [String : Any] = [:]
+    
+    var delegate: FiltersServiceDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         rankByPicker.isHidden = true
         
@@ -49,40 +58,57 @@ class FiltersViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(togglePickerView))
         gestureRecognizer.numberOfTapsRequired = 2
         rankByLabel.addGestureRecognizer(gestureRecognizer)
+        
+        radiusSelected = radiusSlider.value
+        switchIsOpen = openNowSwitch.isOn
+        rankOptionSelected = rankByLabel.text
+        
+        filtersObject["radius"] = radiusSlider.value
+        filtersObject["switchIsOn"] = openNowSwitch.isOn
+        filtersObject["rankSelected"] = rankByLabel.text
+        filtersObject["filters_changed"] = true
+        
     }
     
     @objc func togglePickerView() {
         rankByPicker.isHidden = !rankByPicker.isHidden
     }
-
+    
     @IBAction func cancelButtonAction(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func applyButtonAction(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
+        //dismiss the modal
+//        dismiss(animated: true, completion: nil)
+        if delegate != nil {
+            delegate?.retrieveFilterParameters(controller: self, filters: filtersObject)
+        } else {
+            print("delegate is nil")
+        }
     }
     
     @IBAction func openNowSelectionChange(_ sender: UISwitch) {
         print("switch is \(sender.isOn)")
-        self.filterObject["switchIsOn"] = sender.isOn
+        self.filtersObject["switchIsOn"] = sender.isOn
     }
     
     @IBAction func radisuChanged(_ sender: UISlider) {
         print("radius is \(sender.value)")
-        self.filterObject["radius"] = sender.value
+        self.filtersObject["radius"] = sender.value
     }
     
     
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+     // MARK: - Navigation
+     
+     //In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     let filterViewController: FiltersViewController = segue.destination as! FiltersViewController
+     
+     filterViewController.delegate = self
+     }
+     */
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -98,7 +124,13 @@ class FiltersViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         rankSelected = rankByDictionary[row]
         rankByLabel.text = rankSelected.description()
-        self.filterObject["rankSelected"] = rankByLabel.text
+        self.filtersObject["rankSelected"] = rankByLabel.text
     }
-
+    
+    func resetFilters() {
+        radiusSlider.value = (radiusSelected as Float?)!
+        openNowSwitch.isOn = (switchIsOpen as Bool?)!
+        rankByLabel.text = rankOptionSelected as String?
+    }
+    
 }

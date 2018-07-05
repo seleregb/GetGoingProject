@@ -16,7 +16,7 @@ class POITableViewCell: UITableViewCell {
     
     @IBOutlet weak var addressLabel: UILabel!
     
-    @IBOutlet var starRatingButtons: [UIButton]!
+    @IBOutlet weak var ratingControl: RatingControl!
     
     override func prepareForReuse() {
 //        
@@ -31,20 +31,6 @@ class POITableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-    }
-    
-    
-    @IBAction func starRatingButtonSelected(_ sender: UIButton) {
-        let tag = sender.tag
-        for button in starRatingButtons {
-            if button.tag <= tag {
-                // selected
-                button.setTitle("★", for: .normal)
-            } else {
-                // not selected
-                button.setTitle("☆", for: .normal)
-            }
-        }
     }
     
 }
