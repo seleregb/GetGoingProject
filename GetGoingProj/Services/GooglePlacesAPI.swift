@@ -27,7 +27,7 @@ class GooglePlacesAPI {
             urlComponents.queryItems?.append(URLQueryItem(name: "opennow", value: String(openNow)))
         }
         
-        if radius >= 5000 {
+        if radius <= 5000 {
             urlComponents.queryItems?.append(URLQueryItem(name: "radius", value: String(radius)))
         } else {
             urlComponents.queryItems?.append(URLQueryItem(name: "rankby", value: rankBy))
@@ -57,23 +57,20 @@ class GooglePlacesAPI {
         urlComponents.path = Constants.nearbyPlaceSearch
         
         let location = "\(locationCoordinates.latitude),\(locationCoordinates.longitude)"
-    
+        
         urlComponents.queryItems = [
             URLQueryItem(name: "location", value: location),
             URLQueryItem(name: "key", value: Constants.apiKey)
         ]
         
-        if let keyword = keyword, let openNow = openNow {
+        if rankBy == RankBy.distance.description(), let keyword = keyword, let openNow = openNow {
+            urlComponents.queryItems?.append(URLQueryItem(name: "rankby", value: rankBy))
             urlComponents.queryItems?.append(URLQueryItem(name: "keyword", value: keyword))
             urlComponents.queryItems?.append(URLQueryItem(name: "opennow", value: String(openNow)))
+        } else {
+            urlComponents.queryItems?.append(URLQueryItem(name: "radius", value: String(radius)))
         }
         
-        if radius == 5000 {
-            urlComponents.queryItems?.append(URLQueryItem(name: "radius", value: String(radius)))
-        } else {
-            urlComponents.queryItems?.append(URLQueryItem(name: "rankby", value: rankBy))
-        }
-    
         retrieveJsonResponseFromUrl(urlComponents: urlComponents, callbackFunction: completionHandler)
     }
     

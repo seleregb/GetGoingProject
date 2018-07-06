@@ -10,5 +10,5 @@ import Foundation
 import UIKit
 
 protocol FiltersServiceDelegate {
-    func retrieveFilterParameters(controller: FiltersViewController, filters: [String: Any])
+    func retrieveFilterParameters(controller: FiltersViewController, filters: FilterOptions?)
 }

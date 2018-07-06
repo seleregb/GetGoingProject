@@ -57,8 +57,8 @@ class RatingControl: UIStackView {
             button.setImage(filledStar, for: [.highlighted, .selected])
             
             button.translatesAutoresizingMaskIntoConstraints = false
-            button.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
-            button.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
+//            button.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+//            button.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
             
             addArrangedSubview(button)
             ratingButtons.append(button)

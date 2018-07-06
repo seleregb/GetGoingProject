@@ -18,6 +18,8 @@ class POITableViewCell: UITableViewCell {
     
     @IBOutlet weak var ratingControl: RatingControl!
     
+    @IBOutlet weak var categoryTypesLabel: UILabel!
+    
     override func prepareForReuse() {
 //        
     }

@@ -22,6 +22,13 @@ enum RankBy{
     }
 }
 
+struct FilterOptions {
+    var switchIsOn: Bool?
+    var radiusSelected: Float?
+    var rankOption: String?
+    var isChanged: Bool?
+}
+
 class FiltersViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var openNowSwitch: UISwitch!
@@ -35,11 +42,13 @@ class FiltersViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     @IBOutlet weak var radiusSlider: UISlider!
     var radiusSelected: Float?
     
+    var filtersChanged: Bool? = false
+    
     var rankByDictionary: [RankBy] = [.prominence, .distance]
     
     var rankSelected: RankBy = .prominence
     
-    var filtersObject: [String : Any] = [:]
+    var filtersObject: FilterOptions?
     
     var delegate: FiltersServiceDelegate?
     
@@ -63,10 +72,7 @@ class FiltersViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         switchIsOpen = openNowSwitch.isOn
         rankOptionSelected = rankByLabel.text
         
-        filtersObject["radius"] = radiusSlider.value
-        filtersObject["switchIsOn"] = openNowSwitch.isOn
-        filtersObject["rankSelected"] = rankByLabel.text
-        filtersObject["filters_changed"] = true
+        filtersObject = FilterOptions(switchIsOn: switchIsOpen, radiusSelected: radiusSelected, rankOption: rankOptionSelected, isChanged: filtersChanged)
         
     }
     
@@ -79,9 +85,10 @@ class FiltersViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     }
     
     @IBAction func applyButtonAction(_ sender: UIBarButtonItem) {
-        //dismiss the modal
-//        dismiss(animated: true, completion: nil)
+        // dismiss the modal
         if delegate != nil {
+            filtersChanged = true
+            filtersObject?.isChanged = filtersChanged
             delegate?.retrieveFilterParameters(controller: self, filters: filtersObject)
         } else {
             print("delegate is nil")
@@ -90,25 +97,32 @@ class FiltersViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     
     @IBAction func openNowSelectionChange(_ sender: UISwitch) {
         print("switch is \(sender.isOn)")
-        self.filtersObject["switchIsOn"] = sender.isOn
+        filtersObject?.switchIsOn = sender.isOn
     }
     
-    @IBAction func radisuChanged(_ sender: UISlider) {
+    @IBAction func radiusChanged(_ sender: UISlider) {
         print("radius is \(sender.value)")
-        self.filtersObject["radius"] = sender.value
+        filtersObject?.radiusSelected = sender.value
+    }
+    
+    @IBAction func resetButtonClicked(_ sender: UIButton) {
+        resetFilters()
+        delegate?.retrieveFilterParameters(controller: self, filters: filtersObject)
     }
     
     
     /*
      // MARK: - Navigation
-     
-     //In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     let filterViewController: FiltersViewController = segue.destination as! FiltersViewController
-     
-     filterViewController.delegate = self
-     }
      */
+    //In a storyboard-based application, you will often want to do a little preparation before navigation
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "applyFilters" {
+//            let searchViewController: SearchViewController = segue.destination as! SearchViewController
+//            searchViewController.delegate = self
+//        }
+//    }
+    
+    // MARK: - Picker View Methods
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -124,13 +138,21 @@ class FiltersViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         rankSelected = rankByDictionary[row]
         rankByLabel.text = rankSelected.description()
-        self.filtersObject["rankSelected"] = rankByLabel.text
+        filtersObject?.rankOption = rankByLabel.text
     }
     
+    // MARK: - Reset to default settings
     func resetFilters() {
         radiusSlider.value = (radiusSelected as Float?)!
         openNowSwitch.isOn = (switchIsOpen as Bool?)!
         rankByLabel.text = rankOptionSelected as String?
+        filtersChanged = false
+        rankByPicker.isHidden = false
+        
+        filtersObject = FilterOptions(switchIsOn: switchIsOpen, radiusSelected: radiusSelected, rankOption: rankOptionSelected, isChanged: filtersChanged)
+        delegate?.retrieveFilterParameters(controller: self, filters: filtersObject)
     }
     
 }
+
+

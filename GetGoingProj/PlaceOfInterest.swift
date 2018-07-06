@@ -68,10 +68,14 @@ class PlaceOfInterest: NSObject, NSCoding {
             }
         }
         
-        if let photos = json["photos"] as? [[String: Any]] {
-            if !photos.isEmpty {
-                self.photoReference = photos.first!["photo_reference"] as? String
-                self.maxWidth = photos.first!["width"] as? Int
+        if let photos = json["photos"] as? [[String: Any]]{
+            for photo in photos {
+                if let photoReference = photo["photo_reference"] as? String {
+                    self.photoReference = photoReference
+                }
+                if let maxWidth = photo["width"] as? Int {
+                    self.maxWidth = maxWidth
+                }
             }
         }
         
@@ -85,7 +89,7 @@ class PlaceOfInterest: NSObject, NSCoding {
         }
     }
     
-    init(id: String, name: String, placeId: String, rating: Double, icon: String, photoReference: String, maxWidth: Int, types: Array<String>, vicinity: String, formattedAddress: String) {
+    init(id: String, name: String, placeId: String, rating: Double?, location: CLLocation?, icon: String?, photoReference: String?, maxWidth: Int?, types: [String]?, vicinity: String?, formattedAddress: String?) {
         self.id = id
         self.name = name
         self.placeId = placeId
@@ -101,17 +105,26 @@ class PlaceOfInterest: NSObject, NSCoding {
     func encode(with aCoder: NSCoder) {
         aCoder.encode(id, forKey: PropertyKey.idKey)
         aCoder.encode(name, forKey: PropertyKey.nameKey)
-        aCoder.encode(placeId, forKey: PropertyKey.placeKey)
-        aCoder.encode(rating, forKey: PropertyKey.ratingKey)
+        if let rating = rating {
+            aCoder.encode(rating, forKey: PropertyKey.ratingKey)
+        }
+        if let locationCoordinate = location?.coordinate {
+            aCoder.encode(Double(locationCoordinate.latitude), forKey: PropertyKey.latKey)
+            aCoder.encode(Double(locationCoordinate.longitude), forKey: PropertyKey.lngKey)
+        }
         aCoder.encode(iconUrl, forKey: PropertyKey.iconKey)
         aCoder.encode(photoReference, forKey: PropertyKey.photoReferenceKey)
-        aCoder.encode(maxWidth, forKey: PropertyKey.maxWidthKey)
+        if let maxWidth = maxWidth {
+            aCoder.encode(maxWidth, forKey: PropertyKey.maxWidthKey)
+        }
         aCoder.encode(types, forKey: PropertyKey.typesKey)
         aCoder.encode(vicinity, forKey: PropertyKey.vicinityKey)
         aCoder.encode(formattedAddress, forKey: PropertyKey.formattedAddressKey)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
+         var location: CLLocation?
+        
         let id = aDecoder.decodeObject(forKey: PropertyKey.idKey) as! String
         let name = aDecoder.decodeObject(forKey: PropertyKey.nameKey) as! String
         let placeId = aDecoder.decodeObject(forKey: PropertyKey.placeKey) as! String
@@ -122,7 +135,10 @@ class PlaceOfInterest: NSObject, NSCoding {
         let types = aDecoder.decodeObject(forKey: PropertyKey.typesKey) as! Array<String>
         let vicinity = aDecoder.decodeObject(forKey: PropertyKey.vicinityKey) as! String
         let formattedAddress = aDecoder.decodeObject(forKey: PropertyKey.formattedAddressKey) as! String
-        self.init(id: id, name: name, placeId: placeId, rating: rating, icon: icon, photoReference: photoReference, maxWidth: maxWidth, types: types, vicinity: vicinity, formattedAddress: formattedAddress)
+        let lat = aDecoder.decodeDouble(forKey: PropertyKey.latKey)
+        let lng = aDecoder.decodeDouble(forKey: PropertyKey.lngKey)
+        location = CLLocation(latitude: lat, longitude: lng)
+        self.init(id: id, name: name, placeId: placeId, rating: rating, location: location, icon: icon, photoReference: photoReference, maxWidth: maxWidth, types: types, vicinity: vicinity, formattedAddress: formattedAddress)
     }
     
 }

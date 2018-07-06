@@ -14,6 +14,8 @@
 		832EEC7920CF344A00989604 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 832EEC7720CF344A00989604 /* Main.storyboard */; };
 		832EEC7B20CF344C00989604 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 832EEC7A20CF344C00989604 /* Assets.xcassets */; };
 		832EEC7E20CF344C00989604 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 832EEC7C20CF344C00989604 /* LaunchScreen.storyboard */; };
+		8350BEEE20EF8884003FAAF2 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8350BEED20EF8884003FAAF2 /* PhotoViewController.swift */; };
+		8350BEF020EF88DD003FAAF2 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8350BEEF20EF88DD003FAAF2 /* CameraViewController.swift */; };
 		835AC0EB20D1BEBA00B478AC /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835AC0EA20D1BEBA00B478AC /* SearchViewController.swift */; };
 		835AC0ED20D8568500B478AC /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835AC0EC20D8568500B478AC /* SearchResultsViewController.swift */; };
 		835AC0EF20D8589A00B478AC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835AC0EE20D8589A00B478AC /* Constants.swift */; };
@@ -38,6 +40,8 @@
 		832EEC7A20CF344C00989604 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		832EEC7D20CF344C00989604 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		832EEC7F20CF344C00989604 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8350BEED20EF8884003FAAF2 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		8350BEEF20EF88DD003FAAF2 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		835AC0EA20D1BEBA00B478AC /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		835AC0EC20D8568500B478AC /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		835AC0EE20D8589A00B478AC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -66,6 +70,8 @@
 		8316CCB920ED7955002D2CA8 /* CameraFlow */ = {
 			isa = PBXGroup;
 			children = (
+				8350BEED20EF8884003FAAF2 /* PhotoViewController.swift */,
+				8350BEEF20EF88DD003FAAF2 /* CameraViewController.swift */,
 			);
 			path = CameraFlow;
 			sourceTree = "<group>";
@@ -234,6 +240,7 @@
 				8316CCB820ED69BB002D2CA8 /* RatingControl.swift in Sources */,
 				8321B59A20E6E5E90043A0F4 /* Extras.swift in Sources */,
 				835AC0EB20D1BEBA00B478AC /* SearchViewController.swift in Sources */,
+				8350BEF020EF88DD003FAAF2 /* CameraViewController.swift in Sources */,
 				835AC0F920D86E5300B478AC /* APIParser.swift in Sources */,
 				8316CCBB20EE6AC7002D2CA8 /* FiltersService.swift in Sources */,
 				835AC0ED20D8568500B478AC /* SearchResultsViewController.swift in Sources */,
@@ -244,6 +251,7 @@
 				835AC0F720D86B7300B478AC /* PlaceOfInterest.swift in Sources */,
 				835AC0FD20DAF3D100B478AC /* POITableViewCell.swift in Sources */,
 				835AC0F520D863E500B478AC /* GooglePlacesAPI.swift in Sources */,
+				8350BEEE20EF8884003FAAF2 /* PhotoViewController.swift in Sources */,
 				8373E53320E43230004B7D54 /* FiltersViewController.swift in Sources */,
 				835AC10020DB0AD100B478AC /* DetailsViewController.swift in Sources */,
 			);
