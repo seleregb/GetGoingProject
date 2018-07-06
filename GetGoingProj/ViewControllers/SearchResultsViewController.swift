@@ -9,7 +9,7 @@
 import UIKit
 
 class SearchResultsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     var places: [PlaceOfInterest]!
     var placeParam: String?
     
@@ -31,7 +31,12 @@ class SearchResultsViewController: UIViewController, UITableViewDelegate, UITabl
         }
         else {
             let sortedPlacesArray = places.sorted {
-                $0.rating! > $1.rating!
+                /*
+                 * Ensuring that if there isn't a rating value given use default as 0
+                 */
+                let aRating = $0.rating ?? 0
+                let bRating = $1.rating ?? 0
+                return aRating > bRating
             }
             places = sortedPlacesArray
             print("sorted places by rating!")
@@ -42,7 +47,7 @@ class SearchResultsViewController: UIViewController, UITableViewDelegate, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         let tableViewCellNib = UINib(nibName: "POITableViewCell", bundle: nil)
         tableView.register(tableViewCellNib, forCellReuseIdentifier: "reusableIdentifier")
@@ -77,6 +82,10 @@ class SearchResultsViewController: UIViewController, UITableViewDelegate, UITabl
             cell.ratingControl.isHidden = true
         }
         
+        if let types = places[indexPath.row].types {
+            cell.categoryTypesLabel.text = types.joined(separator: ", ")
+        }
+        
         return cell
     }
     
@@ -108,13 +117,13 @@ class SearchResultsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
