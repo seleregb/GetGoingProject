@@ -100,11 +100,13 @@ class PlaceOfInterest: NSObject, NSCoding {
         self.types = types
         self.vicinity = vicinity
         self.formattedAddress = formattedAddress
+        self.location = location
     }
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(id, forKey: PropertyKey.idKey)
         aCoder.encode(name, forKey: PropertyKey.nameKey)
+        aCoder.encode(placeId, forKey: PropertyKey.placeKey)
         if let rating = rating {
             aCoder.encode(rating, forKey: PropertyKey.ratingKey)
         }
@@ -129,12 +131,12 @@ class PlaceOfInterest: NSObject, NSCoding {
         let name = aDecoder.decodeObject(forKey: PropertyKey.nameKey) as! String
         let placeId = aDecoder.decodeObject(forKey: PropertyKey.placeKey) as! String
         let icon = aDecoder.decodeObject(forKey: PropertyKey.iconKey) as! String
-        let rating = aDecoder.decodeObject(forKey: PropertyKey.ratingKey) as! Double
-        let photoReference = aDecoder.decodeObject(forKey: PropertyKey.photoReferenceKey) as! String
-        let maxWidth = aDecoder.decodeObject(forKey: PropertyKey.maxWidthKey) as! Int
-        let types = aDecoder.decodeObject(forKey: PropertyKey.typesKey) as! Array<String>
-        let vicinity = aDecoder.decodeObject(forKey: PropertyKey.vicinityKey) as! String
-        let formattedAddress = aDecoder.decodeObject(forKey: PropertyKey.formattedAddressKey) as! String
+        let rating = aDecoder.decodeDouble(forKey: PropertyKey.ratingKey)
+        let photoReference = aDecoder.decodeObject(forKey: PropertyKey.photoReferenceKey) as? String
+        let maxWidth = aDecoder.decodeObject(forKey: PropertyKey.maxWidthKey) as? Int
+        let types = aDecoder.decodeObject(forKey: PropertyKey.typesKey) as? [String] ?? []
+        let vicinity = aDecoder.decodeObject(forKey: PropertyKey.vicinityKey) as? String
+        let formattedAddress = aDecoder.decodeObject(forKey: PropertyKey.formattedAddressKey) as? String
         let lat = aDecoder.decodeDouble(forKey: PropertyKey.latKey)
         let lng = aDecoder.decodeDouble(forKey: PropertyKey.lngKey)
         location = CLLocation(latitude: lat, longitude: lng)
